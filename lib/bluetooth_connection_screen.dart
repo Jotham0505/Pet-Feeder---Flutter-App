@@ -113,10 +113,10 @@ class _BluetoothConnectionScreenState extends State<BluetoothConnectionScreen> {
               child: Text(_device == null ? 'Select Device' : 'Selected: ${_device!.name}'),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            /*ElevatedButton(
               onPressed: _device != null && !_isconnecting ? _connectDevice : null,
               child: Text(_isconnecting ? 'Connecting...' : 'Connect to Device'),
-            ),
+            ),*/
             SizedBox(height: 20),
             if (_connection != null && _connection!.isConnected)
               Text('Connected to ${_device!.name}'),

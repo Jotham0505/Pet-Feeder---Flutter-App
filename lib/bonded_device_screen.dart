@@ -89,7 +89,7 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
     }
   }
 
-    void _sendOnMessageToBluetooth() async {
+    void _sendOnMessageToBluetooth() async { //this function is used to send the message to the device
     _connection!.output.add(
       utf8.encode("F"),
     );
