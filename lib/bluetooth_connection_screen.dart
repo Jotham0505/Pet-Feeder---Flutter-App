@@ -101,42 +101,80 @@ class _BluetoothConnectionScreenState extends State<BluetoothConnectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        
         title: Text('Bluetooth Connection'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text('Bluetooth is ${_bluetoothState.toString().split('.')[1]}'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _selectDevice,
-              child: Text(_device == null ? 'Select Device' : 'Selected: ${_device!.name}'),
-            ),
-            SizedBox(height: 20),
-            /*ElevatedButton(
-              onPressed: _device != null && !_isconnecting ? _connectDevice : null,
-              child: Text(_isconnecting ? 'Connecting...' : 'Connect to Device'),
-            ),*/
-            SizedBox(height: 20),
-            if (_connection != null && _connection!.isConnected)
-              Text('Connected to ${_device!.name}'),
-
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+             end: Alignment.topRight,
+              begin: Alignment.bottomLeft,
+            colors: [
+              Color(0xff89B4A0),
+              Color(0xff2F7A56),
+              Color(0xffFFFFFF)
+            ]
+          )
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              
+              //Text('Bluetooth is ${_bluetoothState.toString().split('.')[1]}'),
+              SizedBox(height: 60),
+              /*ElevatedButton(
+                onPressed: _selectDevice,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff2F7A56)
+                ),
+                child: Text(_device == null ? 'Select Device' : 'Selected: ${_device!.name}',style: TextStyle(color: Colors.white),),
+              ),*/
+              InkWell(
+                onTap: _selectDevice,
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Color(0xff2F7A56),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(22),
+                        child: Icon(Icons.bluetooth,color: Colors.white,size: 50,),
+                      ),
+                      //
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(_device == null ? 'Select Device' : 'Selected: ${_device!.name}',style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w500),),
               SizedBox(height: 20),
-
-              // showPushButton
-              //   ? InkWell(
-              //       onTap: () {
-              //         _sendOnMessageToBluetooth();
-              //       },
-              //       child: Container(
-              //         color: Colors.blue,
-              //         height: 70,
-              //         width: 150,
-              //         child: Center(child: Text('Feeding button')),
-              //       ),
-              //     )
-              //   : SizedBox(height: 20),
-          ],
+              /*ElevatedButton(
+                onPressed: _device != null && !_isconnecting ? _connectDevice : null,
+                child: Text(_isconnecting ? 'Connecting...' : 'Connect to Device'),
+              ),*/
+              SizedBox(height: 20),
+              if (_connection != null && _connection!.isConnected)
+                Text('Connected to ${_device!.name}'),
+        
+                SizedBox(height: 20),
+        
+                // showPushButton
+                //   ? InkWell(
+                //       onTap: () {
+                //         _sendOnMessageToBluetooth();
+                //       },
+                //       child: Container(
+                //         color: Colors.blue,
+                //         height: 70,
+                //         width: 150,
+                //         child: Center(child: Text('Feeding button')),
+                //       ),
+                //     )
+                //   : SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

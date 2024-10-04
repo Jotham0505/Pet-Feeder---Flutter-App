@@ -133,78 +133,91 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
       appBar: AppBar(
         title: Text('Paired Devices'),
       ),
-      body: _isConnecting
-          ? Center(child: CircularProgressIndicator())
-          : showPushButton
-              ? Center(
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          _sendOnMessageToBluetooth();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 70,
-                          width: 150,
-                          child: Center(child: Text('Feeding button for both')),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+             end: Alignment.topRight,
+              begin: Alignment.bottomLeft,
+            colors: [
+              Color(0xff89B4A0),
+              Color(0xff2F7A56),
+              Color(0xffFFFFFF)
+            ]
+          )
+        ),
+        child: _isConnecting
+            ? Center(child: CircularProgressIndicator())
+            : showPushButton
+                ? Center(
+                    child: Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            _sendOnMessageToBluetooth();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 70,
+                            width: 150,
+                            child: Center(child: Text('Feeding button for both')),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10,),
-                      InkWell(
-                        onTap: () {
-                          _sendOnMessageToBluetooth1();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 70,
-                          width: 150,
-                          child: Center(child: Text('Feeding button for rice')),
+                        SizedBox(height: 10,),
+                        InkWell(
+                          onTap: () {
+                            _sendOnMessageToBluetooth1();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 70,
+                            width: 150,
+                            child: Center(child: Text('Feeding button for rice')),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10,),
-                      InkWell(
-                        onTap: () {
-                          _sendOnMessageToBluetooth2();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 70,
-                          width: 150,
-                          child: Center(child: Text('Feeding button for water')),
+                        SizedBox(height: 10,),
+                        InkWell(
+                          onTap: () {
+                            _sendOnMessageToBluetooth2();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 70,
+                            width: 150,
+                            child: Center(child: Text('Feeding button for water')),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10,),
-                      ElevatedButton(
-                        onPressed: () {
-                          _disconnect();
-
-                          Navigator.pop(context);
+                        SizedBox(height: 10,),
+                        ElevatedButton(
+                          onPressed: () {
+                            _disconnect();
+        
+                            Navigator.pop(context);
+                          },
+                          child: Text('Disconnect'),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: _devicesList.length,
+                    itemBuilder: (context, index) {
+                      BluetoothDevice device = _devicesList[index];
+                      return ListTile(
+                        title: Text(device.name ?? 'Unknown device'),
+                        subtitle: Text(device.address),
+                        onTap: () {
+                          _connectDevice(device);
                         },
-                        child: Text('Disconnect'),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                )
-              : ListView.builder(
-                  itemCount: _devicesList.length,
-                  itemBuilder: (context, index) {
-                    BluetoothDevice device = _devicesList[index];
-                    return ListTile(
-                      title: Text(device.name ?? 'Unknown device'),
-                      subtitle: Text(device.address),
-                      onTap: () {
-                        _connectDevice(device);
-                      },
-                    );
-                  },
-                ),
+      ),
     );
   }
 }
