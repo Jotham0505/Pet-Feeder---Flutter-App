@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-bool showPushButton =false;
+bool showPushButton = false;
 
 class SelectBondedDevicePage extends StatefulWidget {
   final bool checkAvailability;
@@ -39,6 +39,7 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
   }
 
   Future<void> _getBondedDevices() async {
+    // to get the list of bluetooth devices
     List<BluetoothDevice> devices = [];
     try {
       devices = await FlutterBluetoothSerial.instance.getBondedDevices();
@@ -53,13 +54,15 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
     });
   }
 
-  Future<void> _connectDevice(BluetoothDevice device) async { // this function is used to connect the the app with the device
+  Future<void> _connectDevice(BluetoothDevice device) async {
+    // this function is used to connect the the app with the device
     try {
       setState(() {
         _isConnecting = true;
       });
 
-      BluetoothConnection connection = await BluetoothConnection.toAddress(device.address);
+      BluetoothConnection connection =
+          await BluetoothConnection.toAddress(device.address);
       setState(() {
         _connection = connection;
         _isConnecting = false;
@@ -77,7 +80,6 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Connected to ${device.name}')),
       );
-
     } catch (e) {
       setState(() {
         _isConnecting = false;
@@ -89,9 +91,26 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
     }
   }
 
-    void _sendOnMessageToBluetooth() async { //this function is used to send the message to the device
+  void _sendOnMessageToBluetooth() async {
+    //this function is used to send the message to the device for food and water
     _connection!.output.add(
       utf8.encode("F"),
+    );
+    await _connection!.output.allSent;
+  }
+
+  void _sendOnMessageToBluetooth1() async {
+    //this function is used to send the message to the device for rice
+    _connection!.output.add(
+      utf8.encode("R"),
+    );
+    await _connection!.output.allSent;
+  }
+
+  void _sendOnMessageToBluetooth2() async {
+    //this function is used to send the message to the device for water
+    _connection!.output.add(
+      utf8.encode("W"),
     );
     await _connection!.output.allSent;
   }
@@ -102,7 +121,7 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
 
     if (!_connection!.isConnected) {
       setState(() {
-        showPushButton=false;
+        showPushButton = false;
         _isConnecting = true;
       });
     }
@@ -116,45 +135,76 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
       ),
       body: _isConnecting
           ? Center(child: CircularProgressIndicator())
-          : showPushButton?
-          Center(
-            child: Column(
-              children: [
-                InkWell(
-                          onTap: () {
-                            _sendOnMessageToBluetooth();
-                          },
-                          child: Container(
-                            color: Colors.blue,
-                            height: 70,
-                            width: 150,
-                            child: Center(child: Text('Feeding button')),
-                          ),
+          : showPushButton
+              ? Center(
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          _sendOnMessageToBluetooth();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 70,
+                          width: 150,
+                          child: Center(child: Text('Feeding button for both')),
                         ),
-
-                        ElevatedButton(onPressed: (){
+                      ),
+                      SizedBox(height: 10,),
+                      InkWell(
+                        onTap: () {
+                          _sendOnMessageToBluetooth1();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 70,
+                          width: 150,
+                          child: Center(child: Text('Feeding button for rice')),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      InkWell(
+                        onTap: () {
+                          _sendOnMessageToBluetooth2();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 70,
+                          width: 150,
+                          child: Center(child: Text('Feeding button for water')),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      ElevatedButton(
+                        onPressed: () {
                           _disconnect();
-                          
+
                           Navigator.pop(context);
-                        }, child: Text('Disconnect'),),
-              ],
-            ),
-          )
-          
-          : ListView.builder(
-              itemCount: _devicesList.length,
-              itemBuilder: (context, index) {
-                BluetoothDevice device = _devicesList[index];
-                return ListTile(
-                  title: Text(device.name ?? 'Unknown device'),
-                  subtitle: Text(device.address),
-                  onTap: () {
-                    _connectDevice(device);
-                    
+                        },
+                        child: Text('Disconnect'),
+                      ),
+                    ],
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: _devicesList.length,
+                  itemBuilder: (context, index) {
+                    BluetoothDevice device = _devicesList[index];
+                    return ListTile(
+                      title: Text(device.name ?? 'Unknown device'),
+                      subtitle: Text(device.address),
+                      onTap: () {
+                        _connectDevice(device);
+                      },
+                    );
                   },
-                );
-              },
-            ),
+                ),
     );
   }
 }

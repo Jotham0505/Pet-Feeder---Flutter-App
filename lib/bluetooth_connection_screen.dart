@@ -50,7 +50,7 @@ class _BluetoothConnectionScreenState extends State<BluetoothConnectionScreen> {
     super.dispose();
   }
 
-  Future<void> _connectDevice() async {
+  Future<void> _connectDevice() async { // function to establish the bluetooth conncetion
     try {
       if (_device != null) {
         setState(() {
@@ -75,7 +75,7 @@ class _BluetoothConnectionScreenState extends State<BluetoothConnectionScreen> {
     }
   }
 
-  Future<void> _selectDevice() async {
+  Future<void> _selectDevice() async { // Function to see and select the devices
     final BluetoothDevice? selectedDevice = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SelectBondedDevicePage(checkAvailability: false),
