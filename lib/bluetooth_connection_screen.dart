@@ -101,18 +101,18 @@ class _BluetoothConnectionScreenState extends State<BluetoothConnectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
+        foregroundColor: Colors.black,
         title: Text('Bluetooth Connection'),
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-             end: Alignment.topRight,
-              begin: Alignment.bottomLeft,
+             begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
             colors: [
+              Color(0xffFFFFF),
               Color(0xff89B4A0),
               Color(0xff2F7A56),
-              Color(0xffFFFFFF)
             ]
           )
         ),
@@ -121,7 +121,7 @@ class _BluetoothConnectionScreenState extends State<BluetoothConnectionScreen> {
             children: [
               
               //Text('Bluetooth is ${_bluetoothState.toString().split('.')[1]}'),
-              SizedBox(height: 60),
+              SizedBox(height: 240),
               /*ElevatedButton(
                 onPressed: _selectDevice,
                 style: ElevatedButton.styleFrom(
@@ -148,7 +148,15 @@ class _BluetoothConnectionScreenState extends State<BluetoothConnectionScreen> {
               SizedBox(
                 height: 10,
               ),
-              Text(_device == null ? 'Select Device' : 'Selected: ${_device!.name}',style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w500),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(width: 20,),
+                  Text(_device == null ? 'Select Device' : 'Selected: ${_device!.name}',style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w500),),
+                  Icon(Icons.arrow_right,size: 35,color: Color(0xff2F7A56),)
+                ],
+              ),
               SizedBox(height: 20),
               /*ElevatedButton(
                 onPressed: _device != null && !_isconnecting ? _connectDevice : null,

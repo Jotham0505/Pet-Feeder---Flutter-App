@@ -136,74 +136,145 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-             end: Alignment.topRight,
-              begin: Alignment.bottomLeft,
+             begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
             colors: [
+              Color(0xffFFFFF),
               Color(0xff89B4A0),
               Color(0xff2F7A56),
-              Color(0xffFFFFFF)
             ]
           )
         ),
         child: _isConnecting
             ? Center(child: CircularProgressIndicator())
             : showPushButton
-                ? Center(
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            _sendOnMessageToBluetooth();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(10)),
-                            height: 70,
-                            width: 150,
-                            child: Center(child: Text('Feeding button for both')),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        InkWell(
-                          onTap: () {
-                            _sendOnMessageToBluetooth1();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(10)),
-                            height: 70,
-                            width: 150,
-                            child: Center(child: Text('Feeding button for rice')),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        InkWell(
-                          onTap: () {
-                            _sendOnMessageToBluetooth2();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(10)),
-                            height: 70,
-                            width: 150,
-                            child: Center(child: Text('Feeding button for water')),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        ElevatedButton(
-                          onPressed: () {
-                            _disconnect();
-        
-                            Navigator.pop(context);
-                          },
-                          child: Text('Disconnect'),
-                        ),
-                      ],
+                ? Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color(0xffFFFFF),
+                          Color(0xff89B4A0),
+                          Color(0xff2F7A56),
+                        ],
+                      ),
                     ),
-                  )
+                  child: Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _sendOnMessageToBluetooth();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0xff2F7A56),
+                                  borderRadius: BorderRadius.circular(10)),
+                              height: 90,
+                              width: 180,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Icon(Icons.food_bank,color: Colors.white,),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      'Rice and Water',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15,
+                                          color: Colors.white
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          InkWell(
+                            onTap: () {
+                              _sendOnMessageToBluetooth1();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0xff2F7A56),
+                                  borderRadius: BorderRadius.circular(10)),
+                              height: 90,
+                              width: 180,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Icon(Icons.rice_bowl,color: Colors.white,),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      'Only for Rice',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          InkWell(
+                            onTap: () {
+                              _sendOnMessageToBluetooth2();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0xff2F7A56),
+                                  borderRadius: BorderRadius.circular(10)),
+                              height: 90,
+                              width: 180,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Icon(Icons.water,color: Colors.white,),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      'Only for Water',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 40,),
+                          ElevatedButton(
+                            onPressed: () {
+                              _disconnect();
+                          
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xff2F7A56),
+                              elevation: 5
+                            ),
+                            child: Text('Disconnect',style: TextStyle(color: Colors.white),),
+                          ),
+                        ],
+                      ),
+                    ),
+                )
                 : ListView.builder(
                     itemCount: _devicesList.length,
                     itemBuilder: (context, index) {
